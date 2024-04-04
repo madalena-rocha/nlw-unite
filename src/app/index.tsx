@@ -1,9 +1,11 @@
 import { View, Image } from "react-native"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
+import { Link } from "expo-router"
 
 import { colors } from "@/styles/colors"
 
 import { Input } from "@/components/input"
+import { Button } from "@/components/button"
 
 export default function Home() {
   return (
@@ -24,6 +26,15 @@ export default function Home() {
           />
           <Input.Field placeholder="Código do ingresso" />
         </Input>
+
+        <Button title="Acessar credencial" />
+
+        <Link
+          href="/register"
+          className="text-gray-100 text-base font-bold text-center mt-8"
+        >
+          Ainda não possui ingresso?
+        </Link>
       </View>
     </View>
   )
