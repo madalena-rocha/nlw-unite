@@ -1,8 +1,10 @@
 // O Expo entende os arquivos começados com _ como arquivo de configuração das rotas
-import "../styles/global.css"
+import "@/styles/global.css"
 
 import { Slot } from "expo-router"
 import { StatusBar } from "expo-status-bar"
+
+import { Loading } from "@/components/loading"
 
 import {
   useFonts,
@@ -18,16 +20,12 @@ export default function Layout() {
     Roboto_500Medium,
     Roboto_400Regular,
   })
-
-  if (!fontsLoaded) {
-    return
-  }
   
   return (
     <>
       <StatusBar style="light" />
       {/* O Slot repassa toda a estrutura de navegação da aplicação */}
-      <Slot />
+      {fontsLoaded ? <Slot /> : <Loading />}
     </>
   )
 }
