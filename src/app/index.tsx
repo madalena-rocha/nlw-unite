@@ -1,4 +1,5 @@
-import { View, Image, StatusBar } from "react-native"
+import { useState } from "react"
+import { View, Image, StatusBar, Alert } from "react-native"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 import { Link } from "expo-router"
 
@@ -8,6 +9,14 @@ import { Input } from "@/components/input"
 import { Button } from "@/components/button"
 
 export default function Home() {
+  const [code, setCode] = useState("")
+
+  function handleAccessCredential() {
+    if (!code.trim()) {
+      return Alert.alert("Ingresso", "Informe o código do ingresso!")
+    }
+  }
+
   return (
     // No React Native, o flexbox já é ativo por padrão
     <View className="flex-1 bg-green-500 items-center justify-center p-8">
@@ -26,10 +35,14 @@ export default function Home() {
             color={colors.green[200]}
             size={20}
           />
-          <Input.Field placeholder="Código do ingresso" />
+          <Input.Field
+            placeholder="Código do ingresso"
+            // Está implícito que o onChangeText vai repassar o conteúdo dele para a função set value
+            onChangeText={setCode}
+          />
         </Input>
 
-        <Button title="Acessar credencial" />
+        <Button title="Acessar credencial" onPress={handleAccessCredential} />
 
         <Link
           href="/register"
