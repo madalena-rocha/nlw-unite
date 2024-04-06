@@ -9,6 +9,8 @@ import { Feather } from "@expo/vector-icons"
 
 import { colors } from "@/styles/colors"
 
+import { QRCode } from "@/components/qrcode"
+
 type Props = {
   image?: string
   onChangeAvatar?: () => void
@@ -60,10 +62,7 @@ export function Credential({ onChangeAvatar, image }: Props) {
           madalena@email.com
         </Text>
 
-        <Image
-          source={require("@/assets/ticket/qrcode.png")}
-          className="w-32 h-32"
-        />
+        <QRCode value="teste" size={120} />
 
         <TouchableOpacity activeOpacity={0.7} className="mt-6">
           <Text className="font-body text-orange-500 text-sm">
