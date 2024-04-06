@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { View, Image, StatusBar, Alert } from "react-native"
 import { FontAwesome6, MaterialIcons } from "@expo/vector-icons"
-import { Link } from "expo-router"
+import { Link, router } from "expo-router"
 
 import { colors } from "@/styles/colors"
 
@@ -16,6 +16,8 @@ export default function Register() {
     if (!name.trim() || !email.trim()) {
       return Alert.alert("Inscrição", "Preencha todos os campos!")
     }
+
+    router.push("/ticket")
   }
 
   return (
