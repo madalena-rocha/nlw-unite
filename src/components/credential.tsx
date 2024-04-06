@@ -36,15 +36,17 @@ export function Credential({ onChangeAvatar, image }: Props) {
         </ImageBackground>
 
         {image ? (
-          <Image
-            source={{ uri: image }}
-            className="w-36 h-36 rounded-full -mt-24"
-          />
+          <TouchableOpacity activeOpacity={0.9} onPress={onChangeAvatar}>
+            <Image
+              source={{ uri: image }}
+              className="w-36 h-36 rounded-full -mt-24"
+            />
+          </TouchableOpacity>
         ) : (
           <TouchableOpacity
             activeOpacity={0.9}
             className="w-36 h-36 rounded-full -mt-24 bg-gray-400 items-center justify-center"
-            onPressOut={onChangeAvatar}
+            onPress={onChangeAvatar}
           >
             <Feather name="camera" color={colors.green[400]} size={32} />
           </TouchableOpacity>
