@@ -24,7 +24,7 @@ export default function Ticket() {
         contentContainerClassName="px-8 pb-8"
         showsVerticalScrollIndicator={false}
       >
-        <Credential />
+        <Credential image="https://github.com/madalena-rocha.png" />
 
         <FontAwesome
           name="angle-double-down"
