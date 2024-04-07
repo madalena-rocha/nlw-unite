@@ -10,6 +10,9 @@ import {
 } from "react-native"
 import {FontAwesome} from "@expo/vector-icons"
 import * as ImagePicker from "expo-image-picker"
+import { Redirect } from "expo-router"
+
+import { useBadgeStore } from "@/store/badge-store"
 
 import { colors } from "@/styles/colors"
 
@@ -21,6 +24,8 @@ import { Credential } from "@/components/credential"
 export default function Ticket() {
   const [image, setImage] = useState("")
   const [expandQRCode, setExpandQRCode] = useState(false)
+
+  const badgeStore = useBadgeStore()
 
   async function handleSelectImage() {
     try {
@@ -37,6 +42,10 @@ export default function Ticket() {
       console.log(error)
       Alert.alert("Foto", "Não foi possível selecionar a imagem.")
     }
+  }
+
+  if (!badgeStore.data?.checkInURL) {
+    return <Redirect href="/" />
   }
   
   return (
@@ -72,7 +81,11 @@ export default function Ticket() {
 
         <Button title="Compartilhar" />
 
-        <TouchableOpacity activeOpacity={0.7} className="mt-10">
+        <TouchableOpacity
+          activeOpacity={0.7}
+          className="mt-10"
+          onPress={() => badgeStore.remove()}
+        >
           <Text className="text-base text-white font-bold text-center">
             Remover Ingresso
           </Text>
