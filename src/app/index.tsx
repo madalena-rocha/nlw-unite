@@ -1,7 +1,10 @@
 import { useState } from "react"
 import { View, Image, StatusBar, Alert } from "react-native"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
-import { Link } from "expo-router"
+import { Link, Redirect } from "expo-router"
+
+import { api } from "@/server/api"
+import { useBadgeStore } from "@/store/badge-store"
 
 import { colors } from "@/styles/colors"
 
@@ -10,11 +13,32 @@ import { Button } from "@/components/button"
 
 export default function Home() {
   const [code, setCode] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
 
-  function handleAccessCredential() {
-    if (!code.trim()) {
-      return Alert.alert("Ingresso", "Informe o código do ingresso!")
+  const badgeStore = useBadgeStore()
+
+  async function handleAccessCredential() {
+    try {
+      if (!code.trim()) {
+        return Alert.alert("Ingresso", "Informe o código do ingresso!")
+      }
+  
+      setIsLoading(true)
+
+      const { data } = await api.get(`/attendees/${code}/badge`)
+      badgeStore.save(data.badge)
+    } catch (error) {
+      console.log(error)
+      // O setIsLoading não foi colocado dentro do finally, e sim dentro do catch, para que seja desativado somente se houver erro
+      // Se der tudo certo, o usuário será redirecionado para outra interface, sendo interessante manter o botão com o efeito de carregando
+      setIsLoading(false)
+
+      Alert.alert("Ingresso", "Ingresso não encontrado!")
     }
+  }
+
+  if (badgeStore.data?.checkInURL) {
+    return <Redirect href="/ticket" />
   }
 
   return (
@@ -42,7 +66,11 @@ export default function Home() {
           />
         </Input>
 
-        <Button title="Acessar credencial" onPress={handleAccessCredential} />
+        <Button
+          title="Acessar credencial"
+          onPress={handleAccessCredential}
+          isLoading={isLoading}
+        />
 
         <Link
           href="/register"
