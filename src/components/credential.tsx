@@ -24,7 +24,6 @@ export function Credential({
   data,
   onChangeAvatar,
   onExpandQRCode,
-  image
 }: Props) {
   return (
     <View className="w-full self-stretch items-center">
@@ -48,10 +47,10 @@ export function Credential({
           <View className="w-40 h-40 bg-black rounded-full" />
         </ImageBackground>
 
-        {image ? (
+        {data.image ? (
           <TouchableOpacity activeOpacity={0.9} onPress={onChangeAvatar}>
             <Image
-              source={{ uri: image }}
+              source={{ uri: data.image }}
               className="w-36 h-36 rounded-full -mt-24"
             />
           </TouchableOpacity>
