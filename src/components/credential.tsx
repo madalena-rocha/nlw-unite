@@ -7,17 +7,25 @@ import {
 } from "react-native"
 import { Feather } from "@expo/vector-icons"
 
+import { BadgeStore } from "@/store/badge-store"
+
 import { colors } from "@/styles/colors"
 
 import { QRCode } from "@/components/qrcode"
 
 type Props = {
+  data: BadgeStore
   image?: string
   onChangeAvatar?: () => void
   onExpandQRCode?: () => void
 }
 
-export function Credential({ onChangeAvatar, onExpandQRCode, image }: Props) {
+export function Credential({
+  data,
+  onChangeAvatar,
+  onExpandQRCode,
+  image
+}: Props) {
   return (
     <View className="w-full self-stretch items-center">
       <Image
@@ -31,8 +39,10 @@ export function Credential({ onChangeAvatar, onExpandQRCode, image }: Props) {
           className="px-6 py-8 h-40 items-center self-stretch border-b border-white/10 overflow-hidden"
         >
           <View className="w-full flex-row items-center justify-between">
-            <Text className="text-zinc-50 text-sm font-bold">Unite summit</Text>
-            <Text className="text-zinc-50 text-sm font-bold">#123</Text>
+            <Text className="text-zinc-50 text-sm font-bold">
+              {data.eventTitle}
+            </Text>
+            <Text className="text-zinc-50 text-sm font-bold">#{data.id}</Text>
           </View>
 
           <View className="w-40 h-40 bg-black rounded-full" />
@@ -56,14 +66,14 @@ export function Credential({ onChangeAvatar, onExpandQRCode, image }: Props) {
         )}
 
         <Text className="font-bold text-2xl text-zinc-50 mt-4">
-          Madalena Rocha
+          {data.name}
         </Text>
 
         <Text className="font-regular text-base text-zinc-300 mb-4">
-          madalena@email.com
+          {data.email}
         </Text>
 
-        <QRCode value="teste" size={120} />
+        <QRCode value={data.checkInURL} size={120} />
 
         <TouchableOpacity
           activeOpacity={0.7}

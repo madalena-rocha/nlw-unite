@@ -7,6 +7,7 @@ import axios from "axios"
 import { colors } from "@/styles/colors"
 
 import { api } from "@/server/api"
+import { useBadgeStore } from "@/store/badge-store"
 
 import { Input } from "@/components/input"
 import { Button } from "@/components/button"
@@ -17,6 +18,8 @@ export default function Register() {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [isLoading, setIsLoading] = useState(false)
+
+  const badgeStore = useBadgeStore()
 
   async function handleRegister() {
     try {
@@ -32,7 +35,14 @@ export default function Register() {
       })
 
       if (registerResponse.data.attendeeId) {
-        Alert.alert("Inscrição", "Inscrição realizada com sucesso!", [
+        const badgeResponse = await api.get(
+          `/attendees/${registerResponse.data.attendeeId}/badge`
+        )
+
+        badgeStore.save(badgeResponse.data.badge)
+
+        Alert.alert("Inscrição", "Inscrição realizada com sucesso!",
+        [
           { text: "OK", onPress: () => router.push("/ticket") },
         ])
       }
